@@ -82,11 +82,11 @@ const getBooksByAuthor = async (author) => {
 }
 
 // Get all books based on title
-public_users.get('/title/:title', function (req, res) {
+public_users.get('/title/:title', async function (req, res) {
     //Write your code here
     const author = req.params.title;
 
-    const result = getBooksByTitle(req.params.title)
+    const result = await getBooksByTitle(req.params.title)
 
     if (result.length !== 0) {
         return res.status(200).json(result)
@@ -97,7 +97,7 @@ public_users.get('/title/:title', function (req, res) {
     return res.status(404).json({ message: "No books found with this title" })
 });
 
-const getBooksByTitle = (title) => {
+const getBooksByTitle = async (title) => {
     let result = {};
 
     let booksByTitle = Object.entries(books).filter(([key, book]) =>
