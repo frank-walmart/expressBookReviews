@@ -19,14 +19,18 @@ public_users.post("/register", (req, res) => {
 
     users.push({ username: username, password: password })
 
+    console.log(`users: ${JSON.stringify(users)}`)
+
+
     return res.status(201).json({ message: `User ${username} successfully registered` })
 
 });
 
 // Get the book list available in the shop
 public_users.get('/', function (req, res) {
+    console.log(`users: ${JSON.stringify(users)}`)
     //Write your code here
-    return res.status(200).json(books)
+    // return res.status(200).json(books)
 });
 
 // Get book details based on ISBN
@@ -42,12 +46,11 @@ public_users.get('/isbn/:isbn', function (req, res) {
 
 // Get book details based on author
 public_users.get('/author/:author', function (req, res) {
-    //Write your code here
-    const author = req.params.author;
-
     const result = getBooksByAuthor(req.params.author)
 
-    if (result.length !== 0) {
+    console.log(`result: ${JSON.stringify(result)}`)
+
+    if (result?.length !== 0) {
         return res.status(200).json(result)
     }
 
@@ -60,12 +63,14 @@ const getBooksByAuthor = (author) => {
     let booksByAuthor = Object.entries(books).filter(([key, book]) =>
         book.author.toLowerCase() === author.toLowerCase()
     );
+    console.log(`book.length: ${booksByAuthor}`)
     if (booksByAuthor.length > 0) {
         booksByAuthor.forEach(([key, book]) => {
             result[key] = book;
+
         });
-        return result
     }
+    return result
 }
 
 // Get all books based on title
