@@ -55,10 +55,8 @@ const getBooksByIsbn = async (isbn) => {
 }
 
 // Get book details based on author
-public_users.get('/author/:author', function (req, res) {
-    const result = getBooksByAuthor(req.params.author)
-
-    console.log(`result: ${JSON.stringify(result)}`)
+public_users.get('/author/:author', async function (req, res) {
+    const result = await getBooksByAuthor(req.params.author)
 
     if (result?.length !== 0) {
         return res.status(200).json(result)
@@ -67,7 +65,7 @@ public_users.get('/author/:author', function (req, res) {
     return res.status(404).json({ message: "No books found by this author" })
 });
 
-const getBooksByAuthor = (author) => {
+const getBooksByAuthor = async (author) => {
     let result = {};
 
     let booksByAuthor = Object.entries(books).filter(([key, book]) =>
